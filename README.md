@@ -1,2 +1,2 @@
 # bigcompany-analysis
-big company improvement analysis
+To analyze organizationation structure and identify potential improvements.
