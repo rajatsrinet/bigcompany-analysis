@@ -84,8 +84,8 @@ public class CompanyAnalyzerImpl implements CompanyAnalyzer {
     public void checkReportingLines(Map<String, Employee> employees) {
         employees.values().stream().forEach(employee -> {
             int managerCount = countManagers(employee, employees);
-            if (managerCount > 2) {
-                int excessManagers = managerCount - 2;
+            if (managerCount > 4) {
+                int excessManagers = managerCount - 4;
                 log.info("Employee " + employee.getFirstName() + " " + employee.getLastName()
                         + " has a reporting line that is too long by " + excessManagers + " managers.");
             } else {
