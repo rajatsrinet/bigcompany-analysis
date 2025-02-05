@@ -19,20 +19,19 @@ public class CompanyAnalyzerImpl implements CompanyAnalyzer {
     @Override
     public Map<String, Employee> readEmployeesFromCSVFile(String filePath) throws IOException {
         Map<String, Employee> employees = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            // Skip first line
-            br.readLine();
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String id = values[0];
-                String firstName = values[1];
-                String lastName = values[2];
-                double salary = Double.parseDouble(values[3]);
-                String managerId = values.length > 4 ? values[4] : null;
-                Employee employee = new Employee(id, firstName, lastName, managerId, salary);
-                employees.put(id, employee);
-            }
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        // Skip first line
+        br.readLine();
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(",");
+            String id = values[0];
+            String firstName = values[1];
+            String lastName = values[2];
+            double salary = Double.parseDouble(values[3]);
+            String managerId = values.length > 4 ? values[4] : null;
+            Employee employee = new Employee(id, firstName, lastName, managerId, salary);
+            employees.put(id, employee);
         }
         log.info(new ObjectMapper().writeValueAsString(employees));
         return employees;
@@ -89,7 +88,7 @@ public class CompanyAnalyzerImpl implements CompanyAnalyzer {
                 int excessManagers = managerCount - 2;
                 log.info("Employee " + employee.getFirstName() + " " + employee.getLastName()
                         + " has a reporting line that is too long by " + excessManagers + " managers.");
-            }else{
+            } else {
                 log.info("Employee " + employee.getFirstName() + " " + employee.getLastName()
                         + " has a reporting line that number " + managerCount + " managers.");
             }
