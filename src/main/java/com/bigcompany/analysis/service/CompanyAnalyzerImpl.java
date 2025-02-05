@@ -82,7 +82,7 @@ public class CompanyAnalyzerImpl implements CompanyAnalyzer {
 
     @Override
     public void checkReportingLines(Map<String, Employee> employees) {
-        for (Employee employee : employees.values()) {
+        employees.values().stream().forEach(employee -> {
             int managerCount = countManagers(employee, employees);
             if (managerCount > 2) {
                 int excessManagers = managerCount - 2;
@@ -92,7 +92,7 @@ public class CompanyAnalyzerImpl implements CompanyAnalyzer {
                 log.info("Employee " + employee.getFirstName() + " " + employee.getLastName()
                         + " has a reporting line that number " + managerCount + " managers.");
             }
-        }
+        });
     }
 
     private int countManagers(Employee employee, Map<String, Employee> employees) {
