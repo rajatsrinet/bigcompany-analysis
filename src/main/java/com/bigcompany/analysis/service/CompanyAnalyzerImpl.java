@@ -95,7 +95,7 @@ public class CompanyAnalyzerImpl implements CompanyAnalyzer {
         });
     }
 
-    private int countManagers(Employee employee, Map<String, Employee> employees) {
+    public int countManagers(Employee employee, Map<String, Employee> employees) {
         int count = 0;
         String managerId = employee.getManagerId();
         while (managerId != null) {

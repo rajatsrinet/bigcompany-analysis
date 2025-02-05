@@ -4,8 +4,7 @@ import com.bigcompany.analysis.dto.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
@@ -18,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CompanyAnalyzerImplTest {
     @InjectMocks
     private CompanyAnalyzerImpl companyAnalyzer;
+
+    @Spy
+    private CompanyAnalyzerImpl companyAnalyzerSpy;
 
     @BeforeEach
     public void setUp() {
@@ -52,16 +54,20 @@ public class CompanyAnalyzerImplTest {
     @Test
     public void testCheckManagerSalaries() throws IOException {
         String filePath = "src/test/resources/employees.csv";
-        Map<String, Employee> employees = companyAnalyzer.readEmployeesFromCSVFile(filePath);
-        companyAnalyzer.buildSubordinateLink(employees);
-        companyAnalyzer.checkManagerSalaries(employees);
+        Map<String, Employee> employees = companyAnalyzerSpy.readEmployeesFromCSVFile(filePath);
+        companyAnalyzerSpy.buildSubordinateLink(employees);
+        companyAnalyzerSpy.checkManagerSalaries(employees);
+        Mockito.verify(companyAnalyzerSpy, Mockito.times(3))
+                .calculateAverageSalary(Mockito.anyList());
     }
 
     @Test
     public void testCheckReportingLines() throws IOException {
         String filePath = "src/test/resources/employees.csv";
-        Map<String, Employee> employees = companyAnalyzer.readEmployeesFromCSVFile(filePath);
-        companyAnalyzer.buildSubordinateLink(employees);
-        companyAnalyzer.checkReportingLines(employees);
+        Map<String, Employee> employees = companyAnalyzerSpy.readEmployeesFromCSVFile(filePath);
+        companyAnalyzerSpy.buildSubordinateLink(employees);
+        companyAnalyzerSpy.checkReportingLines(employees);
+        Mockito.verify(companyAnalyzerSpy, Mockito.times(7))
+                .countManagers(Mockito.any(), Mockito.anyMap());
     }
 }
